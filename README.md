@@ -1,3 +1,9 @@
+# pyScheduling
+A python package with implementations of Preemptive and Non-Preemptive Scheduling
+
+
+# Example Usage
+```PYTHON
 from pyScheduling import FirstComeFirstServe, clear
 
 types = """1. First Come - First Serve
@@ -28,3 +34,4 @@ def start():
 
 if __name__ == "__main__":
     start()
+```

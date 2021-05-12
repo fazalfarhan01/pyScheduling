@@ -32,6 +32,7 @@ class FirstComeFirstServe(object):
         self.__start_basic_calculations()
 
     def __start_basic_calculations(self):
+        clear()
         for process_index in range(len(self.processes)):
             single_process = self.processes[process_index]
             index = single_process[0]
@@ -58,14 +59,16 @@ class FirstComeFirstServe(object):
         table = SingleTable(table_data)
         print(table.table, end=end)
 
-    def print_computed_processes(self, end:str="\n"):
+    def print_computed_processes(self, end: str = "\n"):
         table_data = [["Process ID", "Arrival Time", "Service Time",
                        "Completed Time", "Turn Around Time", "Weighted TAT"]]
         table_data += sort_list_in_list(0, self.processes_computed)
+        table_data += [["Total", "---", "---", "---", sum([single_process[4] for single_process in self.processes_computed]), sum([
+            single_process[4] for single_process in self.processes_computed])]]
         table = SingleTable(table_data)
         print(table.table, end=end)
 
-    def print_final_averages(self, end:str="\n"):
+    def print_final_averages(self, end: str = "\n"):
         turn_around_times = [single_process[4]
                              for single_process in self.processes_computed]
         weighted_turn_around_times = [single_process[5]
