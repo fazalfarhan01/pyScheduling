@@ -1,8 +1,9 @@
-from pyScheduling.firstComeFirstServe import FirstComeFirstServe, clear
+from pyScheduling import FirstComeFirstServe, clear
 
 types = """1. First Come - First Serve
 
 Select The Appropriate Scheduling Type: """
+
 
 def start():
     scheduling_type = int(input(types))
