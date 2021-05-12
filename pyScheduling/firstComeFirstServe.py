@@ -29,8 +29,13 @@ class FirstComeFirstServe(object):
         self.processes_computed = []
         self.last_completed_time = 0
         self.start_time = 0
+
+        self.gantt_chart_header = ["START"]
+        self.gantt_chart_timing = [0]
+
         self.processes = sort_list_in_list(1, self.processes)
         self.__start_basic_calculations()
+        # self.__create_gantt_chart()
 
     def __start_basic_calculations(self):
         clear()
@@ -39,6 +44,10 @@ class FirstComeFirstServe(object):
             index = single_process[0]
             arrival_time = single_process[1]
 
+            if self.last_completed_time < arrival_time:
+                self.gantt_chart_header += ["--"]
+                self.gantt_chart_timing += [arrival_time]
+
             # CORRECTION FOR INITIAL START TIME
             if self.first_run:
                 self.last_completed_time = arrival_time
@@ -46,19 +55,28 @@ class FirstComeFirstServe(object):
                 self.first_run = False
             
             service_time = single_process[2]
-            completed_time = service_time + self.last_completed_time
+            completed_time = service_time + arrival_time
             self.last_completed_time = completed_time
             turn_around_time = completed_time - arrival_time
             weighted_turn_around_time = round(turn_around_time/service_time, 2)
             self.processes_computed.append(
                 [index, arrival_time, service_time, completed_time, turn_around_time, weighted_turn_around_time])
+            self.gantt_chart_header += ["P"+str(index)]
+            self.gantt_chart_timing += [completed_time]
+
+    def __create_gantt_chart(self):
+        if self.start_time != 0:
+            self.gantt_chart_header += ["--"]
+            self.gantt_chart_timing += [self.start_time]
+        self.gantt_chart_header += ["P"+str(single_process[0]) for single_process in self.processes]
+        self.gantt_chart_timing += [single_process[3] for single_process in self.processes_computed]
 
     def print_gantt_chart(self, end: str = "\n"):
         clear()
         print("Start time is: {}".format(self.start_time))
         table_data = [
-            [""]+["P"+str(single_process[0]) for single_process in self.processes],
-            [self.start_time]+[single_process[3] for single_process in self.processes_computed]
+            self.gantt_chart_header,
+            self.gantt_chart_timing
         ]
         table = SingleTable(table_data, "Gantt Chart")
         print(table.table, end=end)
