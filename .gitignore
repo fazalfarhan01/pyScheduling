@@ -7,3 +7,6 @@ dist
 __pycache__
 *.pyc
 *.pyo
+*.txt
+PKG-INFO
+!requirements.txt
