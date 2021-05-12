@@ -28,6 +28,7 @@ class FirstComeFirstServe(object):
 
         self.last_completed_time = 0
 
+        self.first_run = True
         self.processes = sort_list_in_list(1, self.processes)
         self.__start_basic_calculations()
 
@@ -37,6 +38,9 @@ class FirstComeFirstServe(object):
             single_process = self.processes[process_index]
             index = single_process[0]
             arrival_time = single_process[1]
+            if self.first_run:
+                self.last_completed_time  = arrival_time
+                self.first_run = False
             service_time = single_process[2]
             completed_time = service_time + self.last_completed_time
             self.last_completed_time = completed_time
