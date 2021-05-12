@@ -57,8 +57,8 @@ class FirstComeFirstServe(object):
         clear()
         print("Start time is: {}".format(self.start_time))
         table_data = [
-            ["P"+str(single_process[0]) for single_process in self.processes],
-            [single_process[3] for single_process in self.processes_computed]
+            [""]+["P"+str(single_process[0]) for single_process in self.processes],
+            [self.start_time]+[single_process[3] for single_process in self.processes_computed]
         ]
         table = SingleTable(table_data, "Gantt Chart")
         print(table.table, end=end)
