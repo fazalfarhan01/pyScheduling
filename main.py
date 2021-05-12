@@ -12,6 +12,7 @@ def start():
         fifs.print_processes()
         fifs.print_computed_processes()
         fifs.print_final_averages()
+        input("Press enter to exit: ")
     else:
         print("Oops. You selected an unknown value.")
         if input("Want to retry ? (Y/n): ").upper() == "Y":
