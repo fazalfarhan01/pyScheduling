@@ -4,4 +4,6 @@ env
 build
 dist
 *.spec
-pyScheduling/__pycache__/*
+__pycache__
+*.pyc
+*.pyo
