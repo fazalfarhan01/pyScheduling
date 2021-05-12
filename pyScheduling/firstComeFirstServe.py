@@ -23,12 +23,12 @@ class FirstComeFirstServe(object):
                     int(input("Enter the Service/Burst Time for P{}: ".format(process_number+1))))
                 processes.append(process)
 
+        self.first_run = True
+
         self.processes = processes
         self.processes_computed = []
-
         self.last_completed_time = 0
-
-        self.first_run = True
+        self.start_time = 0
         self.processes = sort_list_in_list(1, self.processes)
         self.__start_basic_calculations()
 
@@ -38,9 +38,13 @@ class FirstComeFirstServe(object):
             single_process = self.processes[process_index]
             index = single_process[0]
             arrival_time = single_process[1]
+
+            # CORRECTION FOR INITIAL START TIME
             if self.first_run:
-                self.last_completed_time  = arrival_time
+                self.last_completed_time = arrival_time
+                self.start_time = arrival_time
                 self.first_run = False
+            
             service_time = single_process[2]
             completed_time = service_time + self.last_completed_time
             self.last_completed_time = completed_time
@@ -50,6 +54,8 @@ class FirstComeFirstServe(object):
                 [index, arrival_time, service_time, completed_time, turn_around_time, weighted_turn_around_time])
 
     def print_gantt_chart(self, end: str = "\n"):
+        clear()
+        print("Start time is: {}".format(self.start_time))
         table_data = [
             ["P"+str(single_process[0]) for single_process in self.processes],
             [single_process[3] for single_process in self.processes_computed]
