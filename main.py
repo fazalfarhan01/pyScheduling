@@ -5,11 +5,11 @@ types = """1. First Come - First Serve
 Select The Appropriate Scheduling Type: """
 
 
-def start():
+def start(store_to_file: bool = False):
     clear()
     scheduling_type = input(types)
     if scheduling_type == "1":
-        fifs = FirstComeFirstServe()
+        fifs = FirstComeFirstServe(store_to_file=store_to_file)
         fifs.print_gantt_chart()
         fifs.print_processes()
         fifs.print_computed_processes()
@@ -27,4 +27,6 @@ def start():
 
 
 if __name__ == "__main__":
-    start()
+    clear()
+    start(True if input("Want to store data to a file: (Y/n)").upper()
+          == "Y" else False)

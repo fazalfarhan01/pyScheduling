@@ -1,9 +1,9 @@
 from terminaltables import SingleTable
 from .common import clear, sort_list_in_list
-
+import io
 
 class FirstComeFirstServe(object):
-    def __init__(self, total_processes: int = None, processes: list = None) -> None:
+    def __init__(self, total_processes: int = None, processes: list = None, store_to_file:bool=False) -> None:
         if total_processes == None:
             clear()
             total_processes = int(
@@ -22,6 +22,8 @@ class FirstComeFirstServe(object):
                 process.append(
                     int(input("Enter the Service/Burst Time for P{}: ".format(process_number+1))))
                 processes.append(process)
+
+        self.store_to_file = store_to_file
 
         self.first_run = True
 
@@ -71,32 +73,31 @@ class FirstComeFirstServe(object):
         self.gantt_chart_header += ["P"+str(single_process[0]) for single_process in self.processes]
         self.gantt_chart_timing += [single_process[3] for single_process in self.processes_computed]
 
-    def print_gantt_chart(self, end: str = "\n"):
+    def print_gantt_chart(self):
         clear()
-        print("Start time is: {}".format(self.start_time))
         table_data = [
             self.gantt_chart_header,
             self.gantt_chart_timing
         ]
         table = SingleTable(table_data, "Gantt Chart")
-        print(table.table, end=end)
+        self.__custom_print(table.table)
 
-    def print_processes(self, end: str = "\n"):
+    def print_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time"]]
         table_data += sort_list_in_list(0, self.processes)
         table = SingleTable(table_data)
-        print(table.table, end=end)
+        self.__custom_print(table.table)
 
-    def print_computed_processes(self, end: str = "\n"):
+    def print_computed_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time",
                        "Completed Time", "Turn Around Time", "Weighted TAT"]]
         table_data += sort_list_in_list(0, self.processes_computed)
         table_data += [["Total", "---", "---", "---", sum([single_process[4] for single_process in self.processes_computed]), sum([
             single_process[4] for single_process in self.processes_computed])]]
         table = SingleTable(table_data)
-        print(table.table, end=end)
+        self.__custom_print(table.table)
 
-    def print_final_averages(self, end: str = "\n"):
+    def print_final_averages(self):
         turn_around_times = [single_process[4]
                              for single_process in self.processes_computed]
         weighted_turn_around_times = [single_process[5]
@@ -109,7 +110,13 @@ class FirstComeFirstServe(object):
 
         table = SingleTable([["Avg. TAT", "Avg. W-TAT"],
                             [average_turn_around_time, average_weighted_turn_around_time]])
-        print(table.table, end=end)
+        self.__custom_print(table.table)
+
+    def __custom_print(self, data_to_print):
+        if self.store_to_file:
+            with io.open("./solution.txt", "a", encoding="utf-8") as solution:
+                solution.write(data_to_print+"\n")
+        print(data_to_print)
 
 
 if __name__ == "__main__":
