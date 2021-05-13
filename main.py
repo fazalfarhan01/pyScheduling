@@ -17,6 +17,8 @@ def start(store_to_file: bool = False):
         if input("Want to run again ? (Y/n): ").upper() == "Y":
             start()
         input("Press enter to exit: ")
+        quit()
+
     else:
         clear()
         print("Oops. You selected an unknown value.")
