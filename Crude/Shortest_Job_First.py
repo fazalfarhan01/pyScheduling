@@ -75,14 +75,19 @@ class Shortest_Job_Function(object):
         # print(self.proc_queue)
         # copy = []
         # copy =self.proc_queue
+        print(self.proc_queue)
         for i in range(self.total_number_of_process):
-            del self.proc_queue[(proc_queue[i][4])]
-            print(self.proc_queue[i][4])
+            try:
+                print(self.proc_queue[i][4])
+                del self.proc_queue[i][4]
+            except:
+                pass
 
     def print_computed_processes(self):
 
         table_data = [["Process ID", "Arrival Time", "Service Time",
                        "Completed Time", "Turn Around Time", "Weighted TAT"]]
+        self.removeColumn4()
         table_data += sort_list_in_list(0, self.proc_queue)
         # for i in range()
         print(table_data)
@@ -92,9 +97,9 @@ class Shortest_Job_Function(object):
         self.__custom_print(table.table)
 
     def print_final_averages(self):
-        turn_around_times = [single_process[5]
+        turn_around_times = [single_process[4]
                              for single_process in self.proc_queue]
-        weighted_turn_around_times = [single_process[6]
+        weighted_turn_around_times = [single_process[5]
                                       for single_process in self.proc_queue]
 
         average_turn_around_time = round(
