@@ -1,6 +1,6 @@
 from terminaltables import SingleTable
-from .common import clear, sort_list_in_list
-import io
+from .common import clear, sort_list_in_list, custom_print
+
 
 class FirstComeFirstServe(object):
     def __init__(self, total_processes: int = None, processes: list = None, store_to_file:bool=False) -> None:
@@ -80,13 +80,13 @@ class FirstComeFirstServe(object):
             self.gantt_chart_timing
         ]
         table = SingleTable(table_data, "Gantt Chart")
-        self.__custom_print(table.table)
+        custom_print(self.store_to_file, table.table)
 
     def print_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time"]]
         table_data += sort_list_in_list(0, self.processes)
         table = SingleTable(table_data)
-        self.__custom_print(table.table)
+        custom_print(self.store_to_file, table.table)
 
     def print_computed_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time",
@@ -95,7 +95,7 @@ class FirstComeFirstServe(object):
         table_data += [["Total", "---", "---", "---", sum([single_process[4] for single_process in self.processes_computed]), sum([
             single_process[4] for single_process in self.processes_computed])]]
         table = SingleTable(table_data)
-        self.__custom_print(table.table)
+        custom_print(self.store_to_file, table.table)
 
     def print_final_averages(self):
         turn_around_times = [single_process[4]
@@ -110,13 +110,7 @@ class FirstComeFirstServe(object):
 
         table = SingleTable([["Avg. TAT", "Avg. W-TAT"],
                             [average_turn_around_time, average_weighted_turn_around_time]])
-        self.__custom_print(table.table)
-
-    def __custom_print(self, data_to_print):
-        if self.store_to_file:
-            with io.open("./solution.txt", "a", encoding="utf-8") as solution:
-                solution.write(data_to_print+"\n")
-        print(data_to_print)
+        custom_print(self.store_to_file, table.table)
 
 
 if __name__ == "__main__":
