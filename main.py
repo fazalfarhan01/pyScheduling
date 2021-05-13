@@ -4,16 +4,18 @@ types = """1. First Come - First Serve
 
 Select The Appropriate Scheduling Type: """
 
+def run_fifs(store_to_file):
+    fifs = FirstComeFirstServe(store_to_file=store_to_file)
+    fifs.print_gantt_chart()
+    fifs.print_processes()
+    fifs.print_computed_processes()
+    fifs.print_final_averages()
 
 def start(store_to_file: bool = False):
     clear()
     scheduling_type = input(types)
     if scheduling_type == "1":
-        fifs = FirstComeFirstServe(store_to_file=store_to_file)
-        fifs.print_gantt_chart()
-        fifs.print_processes()
-        fifs.print_computed_processes()
-        fifs.print_final_averages()
+        run_fifs(store_to_file)
         if input("Want to run again ? (Y/n): ").upper() == "Y":
             start()
         input("Press enter to exit: ")

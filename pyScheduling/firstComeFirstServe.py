@@ -1,33 +1,15 @@
 from terminaltables import SingleTable
-from .common import clear, sort_list_in_list, custom_print
+from .common import clear, grab_inputs, sort_list_in_list, custom_print
 
 
 class FirstComeFirstServe(object):
     def __init__(self, total_processes: int = None, processes: list = None, store_to_file:bool=False) -> None:
-        if total_processes == None:
-            clear()
-            total_processes = int(
-                input("Enter the total number of processes: "))
-
-        self.total_processed = total_processes
-
-        if processes == None:
-            processes = []
-            for process_number in range(total_processes):
-                process = []
-                clear()
-                process.append(process_number+1)
-                process.append(
-                    int(input("Enter the Arrival Time for P{}: ".format(process_number+1))))
-                process.append(
-                    int(input("Enter the Service/Burst Time for P{}: ".format(process_number+1))))
-                processes.append(process)
+        self.total_processes, self.processes = grab_inputs(total_processes, processes)
 
         self.store_to_file = store_to_file
 
         self.first_run = True
 
-        self.processes = processes
         self.processes_computed = []
         self.last_completed_time = 0
         self.start_time = 0
