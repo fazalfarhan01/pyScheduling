@@ -30,9 +30,9 @@ while (i < total_number_of_process):
     
 
 for each_Process_List in proc_queue:
-    time = time if time > each_Process_List[1] else each_Process_List[1]
-    time = time + each_Process_List[2]
-    each_Process_List.append(time)
+    Completed_Time = Completed_Time if Completed_Time > each_Process_List[1] else each_Process_List[1]
+    Completed_Time = Completed_Time + each_Process_List[2]
+    each_Process_List.append(Completed_Time)
     print(each_Process_List)
     each_Process_List.append(each_Process_List[3] - each_Process_List[2] - each_Process_List[1] if time > each_Process_List[1] else 0)
     each_Process_List.append(each_Process_List[3]-each_Process_List[1])
