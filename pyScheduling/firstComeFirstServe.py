@@ -1,33 +1,15 @@
 from terminaltables import SingleTable
-from .common import clear, sort_list_in_list
-import io
+from .common import clear, grab_inputs, sort_list_in_list, custom_print
+
 
 class FirstComeFirstServe(object):
     def __init__(self, total_processes: int = None, processes: list = None, store_to_file:bool=False) -> None:
-        if total_processes == None:
-            clear()
-            total_processes = int(
-                input("Enter the total number of processes: "))
-
-        self.total_processed = total_processes
-
-        if processes == None:
-            processes = []
-            for process_number in range(total_processes):
-                process = []
-                clear()
-                process.append(process_number+1)
-                process.append(
-                    int(input("Enter the Arrival Time for P{}: ".format(process_number+1))))
-                process.append(
-                    int(input("Enter the Service/Burst Time for P{}: ".format(process_number+1))))
-                processes.append(process)
+        self.total_processes, self.processes = grab_inputs(total_processes, processes)
 
         self.store_to_file = store_to_file
 
         self.first_run = True
 
-        self.processes = processes
         self.processes_computed = []
         self.last_completed_time = 0
         self.start_time = 0
@@ -57,7 +39,10 @@ class FirstComeFirstServe(object):
                 self.first_run = False
             
             service_time = single_process[2]
-            completed_time = service_time + arrival_time
+            if arrival_time <= self.last_completed_time:
+                completed_time = service_time + self.last_completed_time
+            else:
+                completed_time = arrival_time + service_time
             self.last_completed_time = completed_time
             turn_around_time = completed_time - arrival_time
             weighted_turn_around_time = round(turn_around_time/service_time, 2)
@@ -80,13 +65,13 @@ class FirstComeFirstServe(object):
             self.gantt_chart_timing
         ]
         table = SingleTable(table_data, "Gantt Chart")
-        self.__custom_print(table.table)
+        custom_print(self.store_to_file, table.table)
 
     def print_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time"]]
         table_data += sort_list_in_list(0, self.processes)
         table = SingleTable(table_data)
-        self.__custom_print(table.table)
+        custom_print(self.store_to_file, table.table)
 
     def print_computed_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time",
@@ -96,7 +81,7 @@ class FirstComeFirstServe(object):
         table_data += [["Total", "---", "---", "---", sum([single_process[4] for single_process in self.processes_computed]), sum([
             single_process[4] for single_process in self.processes_computed])]]
         table = SingleTable(table_data)
-        self.__custom_print(table.table)
+        custom_print(self.store_to_file, table.table)
 
     def print_final_averages(self):
         turn_around_times = [single_process[4]
@@ -111,13 +96,7 @@ class FirstComeFirstServe(object):
 
         table = SingleTable([["Avg. TAT", "Avg. W-TAT"],
                             [average_turn_around_time, average_weighted_turn_around_time]])
-        self.__custom_print(table.table)
-
-    def __custom_print(self, data_to_print):
-        if self.store_to_file:
-            with io.open("./solution.txt", "a", encoding="utf-8") as solution:
-                solution.write(data_to_print+"\n")
-        print(data_to_print)
+        custom_print(self.store_to_file, table.table)
 
 
 if __name__ == "__main__":

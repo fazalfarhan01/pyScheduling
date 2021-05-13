@@ -10,3 +10,4 @@ __pycache__
 *.txt
 PKG-INFO
 !requirements.txt
+.pypirc
