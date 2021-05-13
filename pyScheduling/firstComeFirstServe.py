@@ -39,7 +39,10 @@ class FirstComeFirstServe(object):
                 self.first_run = False
             
             service_time = single_process[2]
-            completed_time = service_time + self.last_completed_time
+            if arrival_time == self.last_completed_time:
+                completed_time = service_time + self.last_completed_time
+            else:
+                completed_time = arrival_time + service_time
             self.last_completed_time = completed_time
             turn_around_time = completed_time - arrival_time
             weighted_turn_around_time = round(turn_around_time/service_time, 2)
