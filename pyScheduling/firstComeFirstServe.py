@@ -39,7 +39,7 @@ class FirstComeFirstServe(object):
                 self.first_run = False
             
             service_time = single_process[2]
-            if arrival_time == self.last_completed_time:
+            if arrival_time <= self.last_completed_time:
                 completed_time = service_time + self.last_completed_time
             else:
                 completed_time = arrival_time + service_time
