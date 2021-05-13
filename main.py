@@ -1,8 +1,15 @@
-from pyScheduling import FirstComeFirstServe, clear
+from pyScheduling import FirstComeFirstServe, clear, HighestResponseRatioNext
 
 types = """1. First Come - First Serve
+2. Highest Response Ratio First
 
 Select The Appropriate Scheduling Type: """
+
+def re_run():
+    if input("Want to run again ? (Y/n): ").upper() == "Y":
+            start()
+    input("Press enter to exit: ")
+    quit()
 
 def run_fifs(store_to_file):
     fifs = FirstComeFirstServe(store_to_file=store_to_file)
@@ -11,16 +18,22 @@ def run_fifs(store_to_file):
     fifs.print_computed_processes()
     fifs.print_final_averages()
 
+def run_hrrn(store_to_file):
+    hrrn = HighestResponseRatioNext(store_to_file=store_to_file)
+    hrrn.print_gantt_chart()
+    hrrn.print_processes()
+    hrrn.print_computed_processes()
+    hrrn.print_final_averages()
+
 def start(store_to_file: bool = False):
     clear()
     scheduling_type = input(types)
     if scheduling_type == "1":
         run_fifs(store_to_file)
-        if input("Want to run again ? (Y/n): ").upper() == "Y":
-            start()
-        input("Press enter to exit: ")
-        quit()
-
+        re_run()
+    elif scheduling_type == "2":
+        run_hrrn(store_to_file)
+        re_run()
     else:
         clear()
         print("Oops. You selected an unknown value.")

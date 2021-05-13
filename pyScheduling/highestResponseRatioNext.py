@@ -1,4 +1,4 @@
-from common import clear, grab_inputs, sort_list_in_list, custom_print
+from .common import clear, grab_inputs, sort_list_in_list, custom_print
 from terminaltables import SingleTable
 
 
@@ -82,6 +82,9 @@ class HighestResponseRatioNext(object):
             self.to_be_processed_queue = sort_list_in_list(
                 3, self.to_be_processed_queue, reverse=True)
 
+    def print_gantt_chart(self):
+        pass
+
     def print_processes(self):
         table_data = [["Process ID", "Arrival Time", "Service Time"]]
         table_data += sort_list_in_list(0, self.processes)
@@ -114,14 +117,15 @@ class HighestResponseRatioNext(object):
 
 
 if __name__ == "__main__":
-    hrrn = HighestResponseRatioNext(
-        [
+    data = [
             [1, 0, 3],
             [2, 2, 6],
             [3, 4, 4],
             [4, 6, 5],
             [5, 8, 2],
-        ])
+        ]
+    hrrn = HighestResponseRatioNext()
     # print(hrrn.processed_queue)
     hrrn.print_processes()
     hrrn.print_computed_processes()
+    hrrn.print_final_averages()
