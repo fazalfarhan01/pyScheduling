@@ -92,6 +92,7 @@ class FirstComeFirstServe(object):
         table_data = [["Process ID", "Arrival Time", "Service Time",
                        "Completed Time", "Turn Around Time", "Weighted TAT"]]
         table_data += sort_list_in_list(0, self.processes_computed)
+        
         table_data += [["Total", "---", "---", "---", sum([single_process[4] for single_process in self.processes_computed]), sum([
             single_process[4] for single_process in self.processes_computed])]]
         table = SingleTable(table_data)

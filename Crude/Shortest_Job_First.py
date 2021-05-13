@@ -1,52 +1,132 @@
-print('Enter number of processes')
-total_number_of_process = int(input())
-total_process, time = [], 0
-for i in range(total_number_of_process):
-    proc = []
-    print('Enter Process Id')
-    proc.append(input())
-    print('Enter arrival time')
-    proc.append(int(input()))
-    print('Enter execution time')
-    proc.append(int(input()))
-    total_process.append(proc)
-# total_process = [['1', 2, 3], ['2', 3, 4], ['3', 4, 5], ['4', 5, 3]]
+from terminaltables import SingleTable
+from common import clear, sort_list_in_list
+import io
 
-total_process.sort(key = lambda total_process:total_process[1])
-print(total_process)
-proc_queue = []
+class Shortest_Job_Function(object):
+    def __init__(self):
+        print('Enter number of processes')
+        self.total_number_of_process = int(input())
+        self.total_process, self.time = [], 0
+        for i in range(self.total_number_of_process):
+            self.proc = []
+            print('Enter Process Id')
+            self.proc.append(input())
+            print('Enter arrival time')
+            self.proc.append(int(input()))
+            print('Enter execution time')
+            self.proc.append(int(input()))
+            self.total_process.append(self.proc)
+        print(self.total_process)
+        self.total_process.sort(key = lambda total_process:total_process[1])
+        print(self.total_process)
+        self.proc_queue = []
+        self.arrival_time = 0
+        self.arrange_eachprocess_on_Burst_time = []
+        self.sum1 = 0 
+        self.sum2 = 0
+        self.avarage_TAT = 0
+        self.avarage_WT = 0
 
-arrange_eachprocess_on_Burst_time = []
-i = 0
-while (i < total_number_of_process):
-    arrival_time = total_process[i][1]
-    while( i < total_number_of_process and total_process[i][1] == arrival_time):
-        arrange_eachprocess_on_Burst_time.append(total_process[i])
-        i = i+1
-    arrange_eachprocess_on_Burst_time.sort(key = lambda arrange_eachprocess_on_Burst_time:arrange_eachprocess_on_Burst_time[2])
-    for proc in arrange_eachprocess_on_Burst_time:
-        proc_queue.append(proc)
-    arrange_eachprocess_on_Burst_time = []
+
+    def calculateshortestJob(self):
     
+        i = 0
+        while (i < self.total_number_of_process):
+            arrival_time = self.total_process[i][1]
+            while( i < self.total_number_of_process and self.total_process[i][1] == arrival_time):
+                self.arrange_eachprocess_on_Burst_time.append(self.total_process[i])
+                i = i+1
+            self.arrange_eachprocess_on_Burst_time.sort(key = lambda arrange_eachprocess_on_Burst_time:arrange_eachprocess_on_Burst_time[2])
+            for proc in self.arrange_eachprocess_on_Burst_time:
+                self.proc_queue.append(proc)
+            self.arrange_eachprocess_on_Burst_time = []
+            
 
-for each_Process_List in proc_queue:
-    Completed_Time = Completed_Time if Completed_Time > each_Process_List[1] else each_Process_List[1]
-    Completed_Time = Completed_Time + each_Process_List[2]
-    each_Process_List.append(Completed_Time)
-    print(each_Process_List)
-    each_Process_List.append(each_Process_List[3] - each_Process_List[2] - each_Process_List[1] if time > each_Process_List[1] else 0)
-    each_Process_List.append(each_Process_List[3]-each_Process_List[1])
-    each_Process_List.append(each_Process_List[5]/each_Process_List[2])
+        for each_Process_List in self.proc_queue:
+            self.time = self.time if self.time > each_Process_List[1] else each_Process_List[1]
+            self.time = self.time + each_Process_List[2]
+            each_Process_List.append(self.time)
+            print(each_Process_List)
+            each_Process_List.append(each_Process_List[3] - each_Process_List[2] - each_Process_List[1] if self.time > each_Process_List[1] else 0)
+            each_Process_List.append(each_Process_List[3]-each_Process_List[1])
+            each_Process_List.append(each_Process_List[5]/each_Process_List[2])
 
-sum1,sum2 = 0,0
-for each_Process_List in proc_queue:
-    sum1 = sum1 +each_Process_List[5];
-    sum2 = sum2+ each_Process_List[6];
-avarage_TAT = sum1/float(total_number_of_process);
-avarage_WT = sum2/float(total_number_of_process);
-  
-print ('\n')
-print ('{:<4} {:<12} {:<20} {:<20} {:<20} {:<20} '.format(*'PID_Arrival Time_Burst Time_Current Time_Total Arrival time_Waiting turnaround'.split('_')))
-for proc in proc_queue:
-    print ('{:<4} {:<12} {:<20} {:<20} {:<20} {:<20} '.format(proc[0],proc[1],proc[2],proc[3],proc[5],proc[6]))
-print('Total_Average TAT = {} Total Average Wt = {}'.format(avarage_TAT,avarage_WT))
+        
+        for each_Process_List in self.proc_queue:
+            self.sum1 = self.sum1 +each_Process_List[5];
+            self.sum2 = self.sum2+ each_Process_List[6];
+        self.avarage_TAT = self.sum1/float(self.total_number_of_process);
+        self.avarage_WT = self.sum2/float(self.total_number_of_process);
+
+
+        # print ('\n')
+        # print ('{:<4} {:<12} {:<20} {:<20} {:<20} {:<20} '.format(*'PID_Arrival Time_Burst Time_Current Time_Total Arrival time_Waiting turnaround'.split('_')))
+        # for proc in self.proc_queue:
+        #     print ('{:<4} {:<12} {:<20} {:<20} {:<20} {:<20} '.format(proc[0],proc[1],proc[2],proc[3],proc[5],proc[6]))
+        # print('Total_Average TAT = {} Total Average Wt = {}'.format(self.avarage_TAT,self.avarage_WT))
+
+    def print_processes(self):
+        table_data = [["Process ID", "Arrival Time", "Service Time"]]
+        table_data += sort_list_in_list(0, self.processes)
+        table = SingleTable(table_data)
+        self.__custom_print(table.table)
+
+    def removeColumn4(self):
+        # print(self.proc_queue)
+        # copy = []
+        # copy =self.proc_queue
+        for i in range(self.total_number_of_process):
+            del self.proc_queue[(proc_queue[i][4])]
+            print(self.proc_queue[i][4])
+
+    def print_computed_processes(self):
+
+        table_data = [["Process ID", "Arrival Time", "Service Time",
+                       "Completed Time", "Turn Around Time", "Weighted TAT"]]
+        table_data += sort_list_in_list(0, self.proc_queue)
+        # for i in range()
+        print(table_data)
+        table_data += [["Total", "---", "---", "---", sum([single_process[4] for single_process in self.proc_queue]), sum([
+            single_process[4] for single_process in self.proc_queue])]]
+        table = SingleTable(table_data)
+        self.__custom_print(table.table)
+
+    def print_final_averages(self):
+        turn_around_times = [single_process[5]
+                             for single_process in self.proc_queue]
+        weighted_turn_around_times = [single_process[6]
+                                      for single_process in self.proc_queue]
+
+        average_turn_around_time = round(
+            sum(turn_around_times)/len(turn_around_times), 2)
+        average_weighted_turn_around_time = round(
+            sum(weighted_turn_around_times)/len(weighted_turn_around_times), 2)
+
+        table = SingleTable([["Avg. TAT", "Avg. W-TAT"],
+                            [average_turn_around_time, average_weighted_turn_around_time]])
+        self.__custom_print(table.table)
+
+    def __custom_print(self, data_to_print):
+        # if self.store_to_file:
+        #     with io.open("./solution.txt", "a", encoding="utf-8") as solution:
+        #         solution.write(data_to_print+"\n")
+        print(data_to_print)
+
+
+if __name__ == "__main__":
+
+    # processes = [
+    #     [1, 0, 3],
+    #     [2, 2, 3],
+    #     [3, 3, 5],
+    #     [4, 4, 2],
+    #     [5, 8, 3],
+    # ]
+
+    fifs = Shortest_Job_Function()
+    fifs.calculateshortestJob()
+    # fifs.print_gantt_chart()
+    # fifs.print_processes()
+    fifs.print_computed_processes()
+    fifs.print_final_averages()
+    fifs.removeColumn4()
