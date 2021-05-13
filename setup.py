@@ -5,10 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pyScheduling",  # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Mohamed Farhan Fazal",
     author_email="fazal.farhan@gmail.com",
-    description="A small example package",
+    description="A python package with implementations of Preemptive and Non-Preemptive Scheduling",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/fazalfarhan01/pyScheduling",
