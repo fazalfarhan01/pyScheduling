@@ -1,7 +1,8 @@
-from pyScheduling import FirstComeFirstServe, clear, HighestResponseRatioNext
+from pyScheduling import FirstComeFirstServe, clear, HighestResponseRatioNext, ShortestJobFirst
 
 types = """1. First Come - First Serve
 2. Highest Response Ratio First
+3. Shortest Job First
 
 Select The Appropriate Scheduling Type: """
 
@@ -25,6 +26,15 @@ def run_hrrn(store_to_file):
     hrrn.print_computed_processes()
     hrrn.print_final_averages()
 
+def run_sjn(store_to_file):
+    sjf = ShortestJobFirst(store_to_file = store_to_file)
+    sjf.calculateshortestJob()
+    sjf.print_gantt_chart()
+    sjf.print_computed_processes()
+    sjf.print_processes()
+    sjf.print_final_averages()
+    sjf.removeColumn4()
+
 def start(store_to_file: bool = False):
     clear()
     scheduling_type = input(types)
@@ -33,6 +43,9 @@ def start(store_to_file: bool = False):
         re_run()
     elif scheduling_type == "2":
         run_hrrn(store_to_file)
+        re_run()
+    elif scheduling_type == "3":
+        run_sjn(store_to_file)
         re_run()
     else:
         clear()
