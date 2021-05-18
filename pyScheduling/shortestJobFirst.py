@@ -31,7 +31,6 @@ class ShortestJobFirst(object):
         self.start_time = 0
         self.gantt_chart_header = ["START"]
         self.gantt_chart_timing = [0]
-        self.store_to_file = False
 
 
 

@@ -29,7 +29,7 @@ def run_hrrn(store_to_file):
 def run_sjn(store_to_file):
     sjf = ShortestJobFirst(store_to_file = store_to_file)
     sjf.calculateshortestJob()
-    sjf.print_gantt_chart()
+    # sjf.print_gantt_chart()
     sjf.print_computed_processes()
     sjf.print_processes()
     sjf.print_final_averages()
